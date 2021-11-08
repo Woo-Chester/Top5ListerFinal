@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AuthContext from '../auth'
 import { GlobalStoreContext } from '../store'
 import Copyright from './Copyright'
+import ErrorModal from './ErrorModal'
 
 const theme = createTheme();
 

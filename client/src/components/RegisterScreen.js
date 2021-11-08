@@ -12,6 +12,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { GlobalStoreContext } from '../store'
+import ErrorModal from './ErrorModal'
 
 export default function RegisterScreen() {
     const { auth } = useContext(AuthContext);
@@ -28,6 +29,8 @@ export default function RegisterScreen() {
             passwordVerify: formData.get('passwordVerify')
         }, store);
     };
+
+    const errorModal = <ErrorModal></ErrorModal>;
 
     return (
             <Container component="main" maxWidth="xs">
@@ -120,6 +123,7 @@ export default function RegisterScreen() {
                     </Box>
                 </Box>
                 <Copyright sx={{ mt: 5 }} />
+                {auth.error != null ? errorModal : ""}
             </Container>
     );
 }

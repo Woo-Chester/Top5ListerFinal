@@ -82,16 +82,13 @@ loginUser = async (req, res) => {
     try{
         const { email, password } = req.body;
         const existingUser = await User.findOne({ email: email });
-        console.log(email + " " + password);
         if (existingUser) {
             bcrypt.compare(password, existingUser.passwordHash, function(err, d_res) {
                 if(err){
                     // Error
                     console.log(err);
                 }
-                console.log(res);
                 if(d_res){
-                    console.log("Correct Password");
                     const token = auth.signToken(existingUser);
                     res.cookie("token", token, {
                         httpOnly: true,
