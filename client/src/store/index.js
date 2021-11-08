@@ -26,7 +26,8 @@ export const GlobalStoreActionType = {
     UNMARK_LIST_FOR_DELETION: "UNMARK_LIST_FOR_DELETION",
     SET_CURRENT_LIST: "SET_CURRENT_LIST",
     SET_ITEM_EDIT_ACTIVE: "SET_ITEM_EDIT_ACTIVE",
-    SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE"
+    SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
+    UPDATE_LIST: "UPDATE_LIST"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -139,6 +140,16 @@ function GlobalStoreContextProvider(props) {
                     newListCounter: store.newListCounter,
                     isListNameEditActive: false,
                     isItemEditActive: true,
+                    listMarkedForDeletion: null
+                });
+            }
+            case GlobalStoreActionType.UPDATE_LIST: {
+                return setStore({
+                    idNamePairs: payload.idNamePairs,
+                    currentList: store.currentList,
+                    newListCounter: store.newListCounter,
+                    isListNameEditActive: false,
+                    isItemEditActive: false,
                     listMarkedForDeletion: null
                 });
             }
@@ -283,6 +294,32 @@ function GlobalStoreContextProvider(props) {
         });
     }
 
+
+    store.changeItemName = async function(index, newValue){
+        let current_list = store.currentList.items;
+        current_list[index] = newValue;
+        console.log(store.currentList._id);
+        console.log(current_list);
+        let response = await api.updateTop5ListById(store.currentList._id, store.currentList);
+        if (response.data.success) {
+            async function getListPairs() {
+                response = await api.getTop5ListPairs({"email" : auth.user.email});
+                if (response.data.success) {
+                    let pairsArray = response.data.idNamePairs;
+                    storeReducer({
+                        type: GlobalStoreActionType.UPDATE_LIST,
+                        payload: {
+                            idNamePairs: pairsArray
+                        }
+                    });
+                }
+                else{
+                    console.log("Err");
+                }
+            }
+            getListPairs();
+        }
+    }
     // THE FOLLOWING 8 FUNCTIONS ARE FOR COORDINATING THE UPDATING
     // OF A LIST, WHICH INCLUDES DEALING WITH THE TRANSACTION STACK. THE
     // FUNCTIONS ARE setCurrentList, addMoveItemTransaction, addUpdateItemTransaction,

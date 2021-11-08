@@ -15,6 +15,7 @@ function Top5Item(props) {
     const { store } = useContext(GlobalStoreContext);
     const [editActive, setEditActive] = useState(false);
     const [draggedTo, setDraggedTo] = useState(0);
+    const [text, setText] = useState("");
 
     function handleDragStart(event, targetId) {
         event.dataTransfer.setData("item", targetId);
@@ -48,14 +49,36 @@ function Top5Item(props) {
         store.addMoveItemTransaction(sourceId, targetId);
     }
 
+    function handleToggleEdit(event) {
+        event.stopPropagation();
+        toggleEdit();
+    }
+
+    function toggleEdit() {
+        let newActive = !editActive;
+        if (newActive) {
+            store.setIsItemEditActive();
+        }
+        setEditActive(newActive);
+    }
+
+    function handleKeyPress(event) {
+        if (event.code === "Enter") {
+            store.changeItemName(index, text);
+            toggleEdit();
+        }
+    }
+    function handleUpdateText(event) {
+        setText(event.target.value);
+    }
+
     let { index } = props;
 
     let itemClass = "top5-item";
     if (draggedTo) {
         itemClass = "top5-item-dragged-to";
     }
-
-    return (
+    let itemElement = 
             <ListItem
                 id={'item-' + (index+1)}
                 key={props.key}
@@ -83,12 +106,68 @@ function Top5Item(props) {
                 }}
             >
             <Box sx={{ p: 1 }}>
-                <IconButton aria-label='edit'>
+                <IconButton onClick={handleToggleEdit} aria-label='edit'>
                     <EditIcon style={{fontSize:'48pt'}}  />
                 </IconButton>
             </Box>
                 <Box sx={{ p: 1, flexGrow: 1 }}>{props.text}</Box>
-            </ListItem>
+            </ListItem>;
+    
+    if (editActive) {
+        itemElement =
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                id={"list-" + index}
+                label="Top 5 Item Name"
+                name="name"
+                autoComplete="Top 5 Item Name"
+                className='item-card'
+                onKeyPress={handleKeyPress}
+                onChange={handleUpdateText}
+                defaultValue={store.currentList.items[index]}
+                inputProps={{style: {fontSize: 48}}}
+                InputLabelProps={{style: {fontSize: 24}}}
+                autoFocus
+            />
+    }
+
+    return (
+            itemElement
+            // <ListItem
+            //     id={'item-' + (index+1)}
+            //     key={props.key}
+            //     className={itemClass}
+            //     onDragStart={(event) => {
+            //         handleDragStart(event, (index+1))
+            //     }}
+            //     onDragOver={(event) => {
+            //         handleDragOver(event, (index+1))
+            //     }}
+            //     onDragEnter={(event) => {
+            //         handleDragEnter(event, (index+1))
+            //     }}
+            //     onDragLeave={(event) => {
+            //         handleDragLeave(event, (index+1))
+            //     }}
+            //     onDrop={(event) => {
+            //         handleDrop(event, (index+1))
+            //     }}
+            //     draggable="true"
+            //     sx={{ display: 'flex', p: 1 }}
+            //     style={{
+            //         fontSize: '48pt',
+            //         width: '100%'
+            //     }}
+            // >
+            // <Box sx={{ p: 1 }}>
+            //     <IconButton onClick={handleToggleEdit} aria-label='edit'>
+            //         <EditIcon style={{fontSize:'48pt'}}  />
+            //     </IconButton>
+            // </Box>
+            //     <Box sx={{ p: 1, flexGrow: 1 }}>{props.text}</Box>
+            // </ListItem>
     )
 }
 
