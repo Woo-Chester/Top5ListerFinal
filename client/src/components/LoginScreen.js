@@ -33,6 +33,7 @@ export default function LoginScreen() {
             password: formData.get('password')
         }, store);
     };
+    console.log(auth.error);
 
   return (
     <ThemeProvider theme={theme}>

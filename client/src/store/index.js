@@ -169,10 +169,11 @@ function GlobalStoreContextProvider(props) {
             let top5List = response.data.top5List;
             top5List.name = newName;
             async function updateList(top5List) {
+                console.log(top5List);
                 response = await api.updateTop5ListById(top5List._id, top5List);
                 if (response.data.success) {
                     async function getListPairs(top5List) {
-                        response = await api.getTop5ListPairs();
+                        response = await api.getTop5ListPairs({"email" : auth.user.email});
                         if (response.data.success) {
                             let pairsArray = response.data.idNamePairs;
                             storeReducer({
@@ -182,6 +183,9 @@ function GlobalStoreContextProvider(props) {
                                     top5List: top5List
                                 }
                             });
+                        }
+                        else{
+                            console.log("Err");
                         }
                     }
                     getListPairs(top5List);

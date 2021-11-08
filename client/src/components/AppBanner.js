@@ -70,7 +70,7 @@ export default function AppBanner() {
         >
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>        
-
+    const initials = auth.user != null ? (auth.user.firstName[0] + auth.user.lastName[0]) : "";
     let editToolbar = "";
     let menu = loggedOutMenu;
     if (auth.loggedIn) {
@@ -109,6 +109,7 @@ export default function AppBanner() {
                         >
                             { getAccountMenu(auth.loggedIn) }
                         </IconButton>
+                        {initials}
                     </Box>
                 </Toolbar>
             </AppBar>

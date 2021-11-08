@@ -9,7 +9,8 @@ console.log("create AuthContext: " + AuthContext);
 export const AuthActionType = {
     GET_LOGGED_IN: "GET_LOGGED_IN",
     REGISTER_USER: "REGISTER_USER",
-    LOGIN_USER: "LOGIN_USER"
+    LOGIN_USER: "LOGIN_USER",
+    LOGOUT_USER: "LOGOUT_USER"
 }
 
 function AuthContextProvider(props) {
@@ -44,6 +45,13 @@ function AuthContextProvider(props) {
                     user: payload.user,
                     loggedIn: payload.loggedIn,
                     error: payload.error
+                })
+            }
+            case AuthActionType.LOGOUT_USER: {
+                return setAuth({
+                    user: null,
+                    loggedIn: false,
+                    error: null
                 })
             }
             default:
@@ -133,6 +141,13 @@ function AuthContextProvider(props) {
                 }
             })
         }
+    }
+
+    auth.logoutUser = function(){
+        authReducer({
+            type: AuthActionType.LOGOUT_USER
+        })
+        history.push("/");
     }
 
     return (
