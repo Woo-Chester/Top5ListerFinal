@@ -23,6 +23,8 @@ export default function LoginScreen() {
     const { auth } = useContext(AuthContext);
     const { store } = useContext(GlobalStoreContext)
 
+    const errorModal = <ErrorModal></ErrorModal>;
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
@@ -114,6 +116,7 @@ export default function LoginScreen() {
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
+          {auth.error != null ? errorModal : ""}
         </Grid>
       </Grid>
     </ThemeProvider>

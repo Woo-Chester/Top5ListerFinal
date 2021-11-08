@@ -81,6 +81,11 @@ registerUser = async (req, res) => {
 loginUser = async (req, res) => {
     try{
         const { email, password } = req.body;
+        if (!email || !password) {
+            return res
+                .status(400)
+                .json({ errorMessage: "Please enter all required fields." });
+        }
         const existingUser = await User.findOne({ email: email });
         if (existingUser) {
             bcrypt.compare(password, existingUser.passwordHash, function(err, d_res) {
@@ -106,9 +111,17 @@ loginUser = async (req, res) => {
                 else{
                     // Passwords don't match
                     console.log("Incorrect Password");
+                    return res
+                        .status(400)
+                        .json({ errorMessage: "Password is incorrect!" });
                 }
 
             });
+        }
+        else{
+            return res
+                .status(400)
+                .json({ errorMessage: "This email does not exist" });
         }
     }
     catch(err){

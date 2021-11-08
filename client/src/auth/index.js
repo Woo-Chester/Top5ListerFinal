@@ -92,7 +92,6 @@ function AuthContextProvider(props) {
                     error: err.response.data.errorMessage
                 }
             })
-            console.log(err.response.data);
         }
     }
 
@@ -108,21 +107,32 @@ function AuthContextProvider(props) {
     }
 
     auth.loginUser = async function(userData, store){
-        const response = await api.loginUser(userData);
-        if(response.status === 200){
-            console.log(response);
+        try{
+            const response = await api.loginUser(userData);
+            if(response.status === 200){
+                console.log(response);
+                authReducer({
+                    type: AuthActionType.LOGIN_USER,
+                    payload:{
+                        user: response.data.user,
+                        loggedIn: true,
+                        error: null
+                    }
+                })
+                history.push("/");
+                store.loadIdNamePairs();
+            }
+        }
+        catch(err){
             authReducer({
                 type: AuthActionType.LOGIN_USER,
-                payload:{
-                    user: response.data.user,
-                    loggedIn: true,
-                    error: null
+                payload: {
+                    user: null,
+                    loggedIn: false,
+                    error: err.response.data.errorMessage
                 }
             })
-            history.push("/");
-            store.loadIdNamePairs();
         }
-
     }
 
     return (
