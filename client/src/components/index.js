@@ -11,6 +11,7 @@ import WorkspaceScreen from './WorkspaceScreen'
 import LoginScreen from './LoginScreen'
 import ErrorModal from './ErrorModal'
 import AlertModal from './AlertModal'
+import DeleteModal from './DeleteModal'
 /*
     This serves as a module so that we can import
     all the other components as we wish.
@@ -30,5 +31,6 @@ export {
     Top5Item, 
     WorkspaceScreen,
     ErrorModal,
-    AlertModal
+    AlertModal,
+    DeleteModal
  }

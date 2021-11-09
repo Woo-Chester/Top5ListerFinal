@@ -265,18 +265,21 @@ function GlobalStoreContextProvider(props) {
     // showDeleteListModal, and hideDeleteListModal
     store.markListForDeletion = async function (id) {
         // GET THE LIST
+        console.log(store.idNamePairs);
         let response = await api.getTop5ListById(id);
         if (response.data.success) {
             let top5List = response.data.top5List;
+            console.log(top5List);
+            console.log(store.idNamePairs);
             storeReducer({
                 type: GlobalStoreActionType.MARK_LIST_FOR_DELETION,
-                payload: top5List
+                payload: top5List._id
             });
         }
     }
 
     store.deleteList = async function (listToDelete) {
-        let response = await api.deleteTop5ListById(listToDelete._id);
+        let response = await api.deleteTop5ListById(listToDelete);
         if (response.data.success) {
             store.loadIdNamePairs();
             history.push("/");
@@ -298,8 +301,6 @@ function GlobalStoreContextProvider(props) {
     store.changeItemName = async function(index, newValue){
         let current_list = store.currentList.items;
         current_list[index] = newValue;
-        console.log(store.currentList._id);
-        console.log(current_list);
         let response = await api.updateTop5ListById(store.currentList._id, store.currentList);
         if (response.data.success) {
             async function getListPairs() {
