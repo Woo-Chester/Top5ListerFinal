@@ -301,6 +301,7 @@ function GlobalStoreContextProvider(props) {
     store.changeItemName = async function(index, newValue){
         let current_list = store.currentList.items;
         current_list[index] = newValue;
+        console.log(store.currentList._id);
         let response = await api.updateTop5ListById(store.currentList._id, store.currentList);
         if (response.data.success) {
             async function getListPairs() {

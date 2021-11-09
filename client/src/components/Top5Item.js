@@ -64,8 +64,9 @@ function Top5Item(props) {
 
     function handleKeyPress(event) {
         if (event.code === "Enter") {
-            store.changeItemName(index, text);
-            toggleEdit();
+            store.addUpdateItemTransaction(index, text);
+            store.changeItemName(index, text).then(toggleEdit());
+            //toggleEdit();
         }
     }
     function handleUpdateText(event) {
@@ -135,39 +136,6 @@ function Top5Item(props) {
 
     return (
             itemElement
-            // <ListItem
-            //     id={'item-' + (index+1)}
-            //     key={props.key}
-            //     className={itemClass}
-            //     onDragStart={(event) => {
-            //         handleDragStart(event, (index+1))
-            //     }}
-            //     onDragOver={(event) => {
-            //         handleDragOver(event, (index+1))
-            //     }}
-            //     onDragEnter={(event) => {
-            //         handleDragEnter(event, (index+1))
-            //     }}
-            //     onDragLeave={(event) => {
-            //         handleDragLeave(event, (index+1))
-            //     }}
-            //     onDrop={(event) => {
-            //         handleDrop(event, (index+1))
-            //     }}
-            //     draggable="true"
-            //     sx={{ display: 'flex', p: 1 }}
-            //     style={{
-            //         fontSize: '48pt',
-            //         width: '100%'
-            //     }}
-            // >
-            // <Box sx={{ p: 1 }}>
-            //     <IconButton onClick={handleToggleEdit} aria-label='edit'>
-            //         <EditIcon style={{fontSize:'48pt'}}  />
-            //     </IconButton>
-            // </Box>
-            //     <Box sx={{ p: 1, flexGrow: 1 }}>{props.text}</Box>
-            // </ListItem>
     )
 }
 
