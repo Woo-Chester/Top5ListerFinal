@@ -23,6 +23,7 @@ const HomeScreen = () => {
     }
 
     const deleteModal = store.listMarkedForDeletion != null ? <DeleteModal></DeleteModal> : null;
+    const disabled = store.isListNameEditActive;
 
     let listCard = "";
     if (store) {
@@ -47,6 +48,7 @@ const HomeScreen = () => {
                 aria-label="add"
                 id="add-list-button"
                 onClick={handleCreateNewList}
+                disabled={disabled}
             >
                 <AddIcon />
             </Fab>

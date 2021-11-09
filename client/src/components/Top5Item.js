@@ -15,7 +15,7 @@ function Top5Item(props) {
     const { store } = useContext(GlobalStoreContext);
     const [editActive, setEditActive] = useState(false);
     const [draggedTo, setDraggedTo] = useState(0);
-    const [text, setText] = useState("");
+    const [text, setText] = useState(props.text);
 
     function handleDragStart(event, targetId) {
         event.dataTransfer.setData("item", targetId);
@@ -62,17 +62,18 @@ function Top5Item(props) {
         setEditActive(newActive);
     }
 
-    function handleKeyPress(event) {
+    async function handleKeyPress(event) {
         if (event.code === "Enter") {
-            store.addUpdateItemTransaction(index, text);
-            store.changeItemName(index, text).then(toggleEdit());
-            //toggleEdit();
+            if(text!=store.currentList.items[index]){
+                store.addUpdateItemTransaction(index, text);
+            }
+           await store.changeItemName(index, text).then(toggleEdit());
         }
     }
     function handleUpdateText(event) {
         setText(event.target.value);
     }
-
+    console.log(store.isItemEditActive);
     let { index } = props;
 
     let itemClass = "top5-item";
@@ -107,7 +108,7 @@ function Top5Item(props) {
                 }}
             >
             <Box sx={{ p: 1 }}>
-                <IconButton onClick={handleToggleEdit} aria-label='edit'>
+                <IconButton disabled={store.isItemEditActive} onClick={handleToggleEdit} aria-label='edit'>
                     <EditIcon style={{fontSize:'48pt'}}  />
                 </IconButton>
             </Box>

@@ -59,7 +59,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.CHANGE_LIST_NAME: {
                 return setStore({
                     idNamePairs: payload.idNamePairs,
-                    currentList: payload.top5List,
+                    currentList: null,
                     newListCounter: store.newListCounter,
                     isListNameEditActive: false,
                     isItemEditActive: false,
@@ -299,27 +299,32 @@ function GlobalStoreContextProvider(props) {
 
 
     store.changeItemName = async function(index, newValue){
-        let current_list = store.currentList.items;
-        current_list[index] = newValue;
-        console.log(store.currentList._id);
-        let response = await api.updateTop5ListById(store.currentList._id, store.currentList);
-        if (response.data.success) {
-            async function getListPairs() {
-                response = await api.getTop5ListPairs({"email" : auth.user.email});
-                if (response.data.success) {
-                    let pairsArray = response.data.idNamePairs;
-                    storeReducer({
-                        type: GlobalStoreActionType.UPDATE_LIST,
-                        payload: {
-                            idNamePairs: pairsArray
-                        }
-                    });
+        try{
+            let current_list = store.currentList.items;
+            current_list[index] = newValue;
+            console.log(store.currentList._id);
+            let response = await api.updateTop5ListById(store.currentList._id, store.currentList)
+            if (response.data.success) {
+                async function getListPairs() {
+                    response = await api.getTop5ListPairs({"email" : auth.user.email});
+                    if (response.data.success) {
+                        let pairsArray = response.data.idNamePairs;
+                        storeReducer({
+                            type: GlobalStoreActionType.UPDATE_LIST,
+                            payload: {
+                                idNamePairs: pairsArray
+                            }
+                        });
+                    }
+                    else{
+                        console.log("Err");
+                    }
                 }
-                else{
-                    console.log("Err");
-                }
+                getListPairs();
             }
-            getListPairs();
+        }
+        catch(err){
+            console.log(err);
         }
     }
     // THE FOLLOWING 8 FUNCTIONS ARE FOR COORDINATING THE UPDATING
