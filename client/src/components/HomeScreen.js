@@ -4,7 +4,12 @@ import ListCard from './ListCard.js'
 import { Fab, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import List from '@mui/material/List';
-import DeleteModal from './DeleteModal'
+import DeleteModal from './DeleteModal';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import FunctionsOutlinedIcon from '@mui/icons-material/FunctionsOutlined';
+import IconButton from '@mui/material/IconButton';
 
 /*
     This React component lists all the top5 lists in the UI.
@@ -24,7 +29,7 @@ const HomeScreen = () => {
 
     const deleteModal = store.listMarkedForDeletion != null ? <DeleteModal></DeleteModal> : null;
     const disabled = store.isListNameEditActive;
-
+    let ths_page = "home";
     let listCard = "";
     if (store) {
         listCard = 
@@ -43,7 +48,7 @@ const HomeScreen = () => {
     return (
         <div id="top5-list-selector">
             <div id="list-selector-heading">
-            <Fab 
+            {/* <Fab 
                 color="primary" 
                 aria-label="add"
                 id="add-list-button"
@@ -52,7 +57,52 @@ const HomeScreen = () => {
             >
                 <AddIcon />
             </Fab>
-                <Typography variant="h2">Your Lists</Typography>
+                <Typography variant="h2">Your Lists</Typography> */}
+
+                <IconButton
+                    size="large"
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-haspopup="true"
+                    color="inherit"
+                >
+                    <HomeOutlinedIcon
+                        className={"navbar-btn" + (ths_page=="home" ? " active-nav": "")}
+                    ></HomeOutlinedIcon>
+                </IconButton>
+                <IconButton
+                    size="large"
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-haspopup="true"
+                    color="inherit"
+                >
+                    <GroupsOutlinedIcon
+                        className="navbar-btn"
+                    ></GroupsOutlinedIcon>
+                </IconButton>
+                <IconButton
+                    size="large"
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-haspopup="true"
+                    color="inherit"
+                >
+                    <PersonOutlineOutlinedIcon
+                        className="navbar-btn">
+                    </PersonOutlineOutlinedIcon>
+                </IconButton>
+                <IconButton
+                    size="large"
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-haspopup="true"
+                    color="inherit"
+                >
+                    <FunctionsOutlinedIcon                    
+                        className="navbar-btn"
+                    ></FunctionsOutlinedIcon>
+                </IconButton>
             </div>
             <div id="list-selector-list">
                 {
