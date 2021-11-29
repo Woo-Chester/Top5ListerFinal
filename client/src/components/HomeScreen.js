@@ -10,6 +10,9 @@ import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import FunctionsOutlinedIcon from '@mui/icons-material/FunctionsOutlined';
 import IconButton from '@mui/material/IconButton';
+import TextField from '@mui/material/TextField';
+import SortOutlinedIcon from '@mui/icons-material/SortOutlined';
+
 
 /*
     This React component lists all the top5 lists in the UI.
@@ -103,6 +106,30 @@ const HomeScreen = () => {
                         className="navbar-btn"
                     ></FunctionsOutlinedIcon>
                 </IconButton>
+                <TextField
+                fullWidth
+                id="search_nav"
+                label="Search"
+                name="search"
+                autoComplete="search"
+                autoFocus
+              ></TextField>
+              <div>
+              <Typography style={{display :"inline"}}>
+              Sort By
+            </Typography>
+              <IconButton
+                    size="large"
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-haspopup="true"
+                    color="inherit"
+                >
+                    <SortOutlinedIcon
+                        className="navbar-btn">
+                    </SortOutlinedIcon>
+                </IconButton>
+              </div>
             </div>
             <div id="list-selector-list">
                 {

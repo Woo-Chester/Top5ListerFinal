@@ -85,7 +85,7 @@ body {
 
 /*   NAVBAR   */
 .navbar-btn{
-  font-size: 4rem !important;
+  font-size: 3rem !important;
 }
 .active-nav{
   border: 1px solid black;
@@ -474,4 +474,7 @@ input {
 }
 .css-1f5y6oa-MuiButtonBase-root-MuiIconButton-root{
   color: black !important;
+}
+.css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
+  width: 50% !important;
 }
