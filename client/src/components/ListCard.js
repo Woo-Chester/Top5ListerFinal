@@ -23,9 +23,10 @@ import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutl
 function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const [editActive, setEditActive] = useState(false);
-    const { idNamePair } = props;
+    const { idNamePair, index } = props;
     const [text, setText] = useState(idNamePair.name);
     const [list, setList] = useState();
+    const [open, setOpen] = useState(null);
         
     useEffect(() => {
         // Make other things better
@@ -39,6 +40,13 @@ function ListCard(props) {
             // CHANGE THE CURRENT LIST
             store.setCurrentList(id);
         }
+    }
+
+    function handleOpenList(){
+        setOpen(idNamePair._id);
+    }
+    function handleCloseList(){
+        setOpen(null);
     }
 
     function handleToggleEdit(event) {
@@ -98,6 +106,46 @@ function ListCard(props) {
     //console.log(published);
     let bg_color = published ? "#c8d2fd" : "#fefdf0";
     let pub_edit = published ? "Published: " + published_date : "Edit";
+
+    let arrow = open==idNamePair._id ?
+                 <KeyboardArrowUpOutlinedIcon 
+                onClick={() => {
+                    handleCloseList();
+                }}
+                /> :
+                <KeyboardArrowDownOutlinedIcon 
+                onClick={() => {
+                    handleOpenList();
+                }}
+                /> ;
+
+    let open_menu = open ? <Grid
+                            container
+                            xs={12}
+                            sm={12}
+                            md={12}
+                            >
+                                <Grid
+                                item
+                                xs={12}
+                                sm={6}
+                                md={6}
+                                >
+                                    <Box sx={{p:1, background: '#273888', borderRadius: '3%'}}>
+                                    {
+                                        top5List
+                                    }
+                                    </Box>
+                                </Grid>
+                                <Grid
+                                item
+                                xs={false}
+                                sm={6}
+                                md={6}
+                                >
+                                    Comments
+                                </Grid>
+                            </Grid> : "";
     
     let cardElement =
         <ListItem
@@ -105,10 +153,9 @@ function ListCard(props) {
             key={idNamePair._id}
             sx={{ marginTop: '15px', display: 'flex', p: 1 }}
             button
-            onClick={(event) => {
-                handleLoadList(event, idNamePair._id)
-            }
-            }
+            // onClick={(event) => {
+            //     handleLoadList(event, idNamePair._id)
+            // }}
             style={{
                 width: '100%',
                 background: bg_color,
@@ -170,27 +217,7 @@ function ListCard(props) {
                             </IconButton>
                         </Grid>
                     </Grid>
-
-                    <Grid
-                    item
-                    xs={12}
-                    sm={6}
-                    md={6}
-                    >
-                        <Box sx={{p:1, background: '#273888', borderRadius: '3%'}}>
-                        {
-                            top5List
-                        }
-                        </Box>
-                    </Grid>
-                    <Grid
-                    item
-                    xs={false}
-                    sm={6}
-                    md={6}
-                    >
-                        Comments
-                    </Grid>
+                    {open_menu}
                     <Grid
                     item
                     xs={9}
@@ -222,7 +249,7 @@ function ListCard(props) {
                         sm={4}
                         md={4}
                         >
-                            <KeyboardArrowDownOutlinedIcon />
+                            {arrow}
                         </Grid>
                     </Grid>
                 </Grid>
