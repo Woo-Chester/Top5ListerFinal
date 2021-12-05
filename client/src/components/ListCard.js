@@ -3,6 +3,7 @@ import { GlobalStoreContext } from '../store'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { Fab, Typography } from '@mui/material'
+import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
@@ -12,6 +13,9 @@ import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
 import Grid from '@mui/material/Grid';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
+import AuthContext from '../auth';
+import CommentCard from './CommentCard'
+
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -22,17 +26,35 @@ import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutl
 */
 function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
     const [editActive, setEditActive] = useState(false);
     const { idNamePair, index } = props;
     const [text, setText] = useState(idNamePair.name);
     const [list, setList] = useState();
     const [open, setOpen] = useState(null);
+    const [comments, setComments] = useState("");
         
     useEffect(() => {
         // Make other things better
         store.getTopListById(idNamePair._id).then( (result) => {
             setList(result)
         });
+        store.getListComments(idNamePair._id).then( (result) => {
+            let commentCards = 
+            <List sx={{ width: '90%', left: '5%', bgcolor: 'var(--swatch-primary)' }}>
+            {
+                result.map((commentData, index) => (
+                    <CommentCard
+                        commentData={commentData}
+                        index={index}
+                    />
+                ))
+            }
+            </List>;
+                                
+            setComments(commentCards);
+        });
+        
     });
 
     function handleLoadList(event, id) {
@@ -77,9 +99,16 @@ function ListCard(props) {
     function handleUpdateText(event) {
         setText(event.target.value);
     }
+
+    function handleSubmitComment(event){
+        if(event.code === "Enter"){
+            store.submitComment({list_id: idNamePair._id, commenter: auth.user.username, comment: event.target.value});
+            event.target.value = "";
+        }
+    }
+
     let published = false;
     let published_date = "";
-    let ownerEmail = "";
     let likes = 0 ;
     let dislikes = 0;
     let views = 0;
@@ -90,7 +119,6 @@ function ListCard(props) {
         published = published_date != '3000-01-01T05:00:00.000Z';
         published_date = new Date(published_date);
         published_date = published_date.toDateString();
-        ownerEmail = list.ownerEmail;
         likes = list.likes;
         dislikes = list.dislikes;
         views = list.views;
@@ -143,7 +171,11 @@ function ListCard(props) {
                                 sm={6}
                                 md={6}
                                 >
-                                    Comments
+                                    {comments}
+                                    <TextField
+                                    onKeyPress={handleSubmitComment}
+                                    >
+                                    </TextField>
                                 </Grid>
                             </Grid> : "";
     
@@ -171,7 +203,7 @@ function ListCard(props) {
                     md={9}
                     >
                         <h3>{idNamePair.name}</h3>
-                        <p>By: {ownerEmail}</p>
+                        <p>By: {auth.user.username}</p>
                     </Grid>
                     <Grid
                     container
@@ -253,33 +285,6 @@ function ListCard(props) {
                         </Grid>
                     </Grid>
                 </Grid>
-                
-
-                {/* <Box sx={{ p: 1, flexGrow: 1 }}><h3>{idNamePair.name}</h3><p>By: {ownerEmail}</p><p>Edit</p></Box>
-                <Box sx={{ p: 1 }}>
-                    <IconButton onClick={handleToggleEdit} aria-label='edit'>
-                        <EditIcon style={{fontSize:'48pt'}} />
-                    </IconButton>
-                </Box>
-                <Box sx={{ p: 1}}>
-                    <IconButton>
-                        <ThumbUpOutlinedIcon />
-                    </IconButton>
-                    <Typography variant='span'>{likes}</Typography>
-                </Box>
-                <Box sx={{ p: 1}}>
-                    <IconButton>
-                        <ThumbDownOutlinedIcon />
-                    </IconButton>
-                    <Typography variant='span'>{dislikes}</Typography>
-                </Box>
-                <Box sx={{ p: 1 }}>
-                    <IconButton onClick={(event) => {
-                        handleDeleteList(event, idNamePair._id)
-                    }} aria-label='delete'>
-                        <DeleteIcon/>
-                    </IconButton>
-                </Box> */}
         </ListItem>
 
     if (editActive) {

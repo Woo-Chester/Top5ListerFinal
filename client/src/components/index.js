@@ -13,6 +13,7 @@ import ErrorModal from './ErrorModal'
 import AlertModal from './AlertModal'
 import DeleteModal from './DeleteModal'
 import Navigation from './Navigation'
+import CommentCard from './CommentCard'
 /*
     This serves as a module so that we can import
     all the other components as we wish.
@@ -34,5 +35,6 @@ export {
     ErrorModal,
     AlertModal,
     DeleteModal,
-    Navigation
+    Navigation,
+    CommentCard
  }

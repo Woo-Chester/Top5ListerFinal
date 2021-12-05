@@ -440,6 +440,20 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
+    store.submitComment = async function(newComment) {
+        const response = await api.createComment(newComment);
+        if(response.data.success){
+            return response.data.success;
+        }
+    }
+
+    store.getListComments = async function(list_id){
+        const response = await api.getListComments(list_id);
+        if(response.data.success){
+            return response.data.comments;
+        }
+    }
+
     return (
         <GlobalStoreContext.Provider value={{
             store

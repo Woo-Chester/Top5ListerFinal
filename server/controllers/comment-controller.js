@@ -1,11 +1,9 @@
 const auth = require('../auth')
-const User = require('../models/comment-model')
-const bcrypt = require('bcryptjs')
+const Comment = require('../models/comment-model')
 
 createComment = async (req, res) => {
     try{
         const { list_id, commenter, comment } = req.body;
-
         const newComment = new Comment({
             list_id, commenter, comment
         });
@@ -26,7 +24,7 @@ createComment = async (req, res) => {
 }
 
 getListComments = async (req, res) => {
-    await Comment.find({list_id: req.body.list_id}, (err, comments) => {
+    await Comment.find({list_id: req.params.id}, (err, comments) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
@@ -38,6 +36,7 @@ getListComments = async (req, res) => {
         }
         else {
             // PUT ALL THE LISTS INTO ID, NAME PAIRS
+            //console.log("Found Comments: " + comments.length)
             let list_comments = [];
             for (let key in comments) {
                 let list = comments[key];
@@ -47,7 +46,6 @@ getListComments = async (req, res) => {
                     comment: list.comment
                 };
                 list_comments.push(comment);
-                
             }
             return res.status(200).json({ success: true, comments: list_comments })
         }

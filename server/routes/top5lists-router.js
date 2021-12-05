@@ -2,6 +2,7 @@ const auth = require('../auth')
 const express = require('express')
 const Top5ListController = require('../controllers/top5list-controller')
 const UserController = require('../controllers/user-controller')
+const CommentController = require('../controllers/comment-controller')
 const router = express.Router()
 
 router.post('/top5list', auth.verify, Top5ListController.createTop5List)
@@ -11,7 +12,10 @@ router.get('/top5list/:id', auth.verify, Top5ListController.getTop5ListById)
 router.get('/top5lists', auth.verify, Top5ListController.getTop5Lists)
 router.put('/top5listpairs', auth.verify, Top5ListController.getTop5ListPairs)
 
-router.post('/register', auth.verify, UserController.registerUser)
-router.get('/loggedIn', auth.verify, UserController.getLoggedIn)
-router.post('/login', auth.verify, UserController.loginUser)
+router.post('/register', UserController.registerUser)
+router.get('/loggedIn', UserController.getLoggedIn)
+router.post('/login', UserController.loginUser)
+
+router.post('/comment', CommentController.createComment)
+router.get('/comment/:id', CommentController.getListComments)
 module.exports = router
