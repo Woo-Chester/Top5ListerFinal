@@ -28,7 +28,8 @@ export default function SplashScreen() {
                 The Top 5 Lister
                 <div id="splash-subtitle">
                     Create your own Top 5 List and see <br/>
-                    what others are putting for their Top 5!
+                    what others are putting for their Top 5!<br/>
+                    Developed By: Chester Woo
                 </div>
             </div>
             <div id="splash-buttons">

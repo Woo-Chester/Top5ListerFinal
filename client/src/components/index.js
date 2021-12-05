@@ -12,6 +12,7 @@ import LoginScreen from './LoginScreen'
 import ErrorModal from './ErrorModal'
 import AlertModal from './AlertModal'
 import DeleteModal from './DeleteModal'
+import Navigation from './Navigation'
 /*
     This serves as a module so that we can import
     all the other components as we wish.
@@ -32,5 +33,6 @@ export {
     WorkspaceScreen,
     ErrorModal,
     AlertModal,
-    DeleteModal
+    DeleteModal,
+    Navigation
  }

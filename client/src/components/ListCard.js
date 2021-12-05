@@ -105,7 +105,7 @@ function ListCard(props) {
     }
     //console.log(published);
     let bg_color = published ? "#c8d2fd" : "#fefdf0";
-    let pub_edit = published ? "Published: " + published_date : "Edit";
+    let pub_edit = published ? "Published: " + published_date : <Typography onClick={(event) => {handleLoadList(event, idNamePair._id)}}>Edit</Typography>;
 
     let arrow = open==idNamePair._id ?
                  <KeyboardArrowUpOutlinedIcon 
