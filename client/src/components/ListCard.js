@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { GlobalStoreContext } from '../store'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -6,6 +6,8 @@ import ListItem from '@mui/material/ListItem';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import api from '../api'
+
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -19,6 +21,12 @@ function ListCard(props) {
     const [editActive, setEditActive] = useState(false);
     const { idNamePair } = props;
     const [text, setText] = useState(idNamePair.name);
+    const [list, setList] = useState();
+        
+    useEffect(() => {
+        // Make other things better
+        store.getTopListById(idNamePair._id).then( (result) => {setList(result)});
+    });
 
     function handleLoadList(event, id) {
         if (!event.target.disabled) {
@@ -55,7 +63,17 @@ function ListCard(props) {
     function handleUpdateText(event) {
         setText(event.target.value);
     }
-
+    let published;
+    let ownerEmail;
+    //console.log(list);
+    if(list != undefined){
+        published = list.published ? "#c8d2fd" : "#fefdf0";
+        ownerEmail = list.ownerEmail;
+    }
+    else{
+        published = true ? "#c8d2fd" : "#fefdf0"; 
+        ownerEmail = "";
+    }
     let cardElement =
         <ListItem
             id={idNamePair._id}
@@ -67,11 +85,13 @@ function ListCard(props) {
             }
             }
             style={{
-                fontSize: '48pt',
-                width: '100%'
+                fontSize: '30pt',
+                width: '100%',
+                background: published,
+                borderRadius: '2%'
             }}
         >
-                <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
+                <Box sx={{ p: 1, flexGrow: 1 }}><h3>{idNamePair.name}</h3><p>By: {ownerEmail}</p></Box>
                 <Box sx={{ p: 1 }}>
                     <IconButton onClick={handleToggleEdit} aria-label='edit'>
                         <EditIcon style={{fontSize:'48pt'}} />

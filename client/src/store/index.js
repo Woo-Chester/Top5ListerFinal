@@ -223,7 +223,10 @@ function GlobalStoreContextProvider(props) {
         let payload = {
             name: newListName,
             items: ["?", "?", "?", "?", "?"],
-            ownerEmail: auth.user.email
+            ownerEmail: auth.user.email,
+            published: false,
+            likes: 0,
+            dislikes: 0
         };
         const response = await api.createTop5List(payload);
         if (response.data.success) {
@@ -425,6 +428,14 @@ function GlobalStoreContextProvider(props) {
             type: GlobalStoreActionType.SET_ITEM_EDIT_ACTIVE,
             payload: null
         });
+    }
+
+    // GET LIST
+    store.getTopListById = async function(id) {
+        const response = await api.getTop5ListById(id);
+        if(response.data.success){
+            return response.data.top5List;
+        }
     }
 
     return (
