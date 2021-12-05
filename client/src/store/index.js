@@ -220,6 +220,7 @@ function GlobalStoreContextProvider(props) {
     // THIS FUNCTION CREATES A NEW LIST
     store.createNewList = async function () {
         let newListName = "Untitled" + store.newListCounter;
+        console.log(auth.user);
         let payload = {
             name: newListName,
             items: ["?", "?", "?", "?", "?"],
