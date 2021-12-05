@@ -2,12 +2,13 @@ import { useContext, useState, useEffect } from 'react'
 import { GlobalStoreContext } from '../store'
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
+import { Fab, Typography } from '@mui/material'
 import ListItem from '@mui/material/ListItem';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import api from '../api'
-
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -25,7 +26,9 @@ function ListCard(props) {
         
     useEffect(() => {
         // Make other things better
-        store.getTopListById(idNamePair._id).then( (result) => {setList(result)});
+        store.getTopListById(idNamePair._id).then( (result) => {
+            setList(result)
+        });
     });
 
     function handleLoadList(event, id) {
@@ -63,17 +66,18 @@ function ListCard(props) {
     function handleUpdateText(event) {
         setText(event.target.value);
     }
-    let published;
-    let ownerEmail;
+    let published = "";
+    let ownerEmail = "";
+    let likes = 0 ;
+    let dislikes = 0;
     //console.log(list);
     if(list != undefined){
-        published = list.published ? "#c8d2fd" : "#fefdf0";
+        published = list.published=='3000-01-01T05:00:00.000Z' ? "#fefdf0" : "#c8d2fd" ;
         ownerEmail = list.ownerEmail;
+        likes = list.likes;
+        dislikes = list.dislikes;
     }
-    else{
-        published = true ? "#c8d2fd" : "#fefdf0"; 
-        ownerEmail = "";
-    }
+    
     let cardElement =
         <ListItem
             id={idNamePair._id}
@@ -85,17 +89,30 @@ function ListCard(props) {
             }
             }
             style={{
-                fontSize: '30pt',
                 width: '100%',
+                height: '15vh',
                 background: published,
-                borderRadius: '2%'
+                borderRadius: '2%',
+                lineHeight: '75%'
             }}
         >
-                <Box sx={{ p: 1, flexGrow: 1 }}><h3>{idNamePair.name}</h3><p>By: {ownerEmail}</p></Box>
-                <Box sx={{ p: 1 }}>
+                <Box sx={{ p: 1, flexGrow: 1 }}><h3>{idNamePair.name}</h3><p>By: {ownerEmail}</p><p>Edit</p></Box>
+                {/* <Box sx={{ p: 1 }}>
                     <IconButton onClick={handleToggleEdit} aria-label='edit'>
                         <EditIcon style={{fontSize:'48pt'}} />
                     </IconButton>
+                </Box> */}
+                <Box sx={{ p: 1}}>
+                    <IconButton>
+                        <ThumbUpOutlinedIcon />
+                    </IconButton>
+                    <Typography variant='span'>{likes}</Typography>
+                </Box>
+                <Box sx={{ p: 1}}>
+                    <IconButton>
+                        <ThumbDownOutlinedIcon />
+                    </IconButton>
+                    <Typography variant='span'>{dislikes}</Typography>
                 </Box>
                 <Box sx={{ p: 1 }}>
                     <IconButton onClick={(event) => {
