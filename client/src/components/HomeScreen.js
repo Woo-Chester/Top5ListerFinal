@@ -3,7 +3,6 @@ import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import List from '@mui/material/List';
 import DeleteModal from './DeleteModal';
-import Navigation from './Navigation';
 
 /*
     This React component lists all the top5 lists in the UI.
@@ -40,8 +39,7 @@ const HomeScreen = () => {
             </List>;
     }
     return (
-        <div id="top5-list-selector">
-            <Navigation/>
+        <div>
             <div id="list-selector-list">
                 {
                     listCard
