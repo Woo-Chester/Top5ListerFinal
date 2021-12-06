@@ -14,6 +14,7 @@ import AlertModal from './AlertModal'
 import DeleteModal from './DeleteModal'
 import Navigation from './Navigation'
 import CommentCard from './CommentCard'
+import AllListScreen from './AllListScreen'
 /*
     This serves as a module so that we can import
     all the other components as we wish.
@@ -36,5 +37,6 @@ export {
     AlertModal,
     DeleteModal,
     Navigation,
-    CommentCard
+    CommentCard,
+    AllListScreen
  }

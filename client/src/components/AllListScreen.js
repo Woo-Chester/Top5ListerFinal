@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useState,useContext, useEffect } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import List from '@mui/material/List';
@@ -10,11 +10,14 @@ import Navigation from './Navigation';
     
     @author McKilla Gorilla
 */
-const HomeScreen = () => {
+const AllListScreen = () => {
     const { store } = useContext(GlobalStoreContext);
+    const [lists, setLists] = useState();
 
     useEffect(() => {
-        store.loadIdNamePairs();
+        store.getAllTop5Lists().then((result) => {
+            setLists(result);
+        })
     }, []);
 
     function handleCreateNewList() {
@@ -24,14 +27,15 @@ const HomeScreen = () => {
     const deleteModal = store.listMarkedForDeletion != null ? <DeleteModal></DeleteModal> : null;
     const disabled = store.isListNameEditActive;
     let listCard = "";
-    if (store) {
+    if (lists) {
+        console.log(lists);
         listCard = 
             <List sx={{ width: '90%', left: '5%', bgcolor: 'var(--swatch-primary)' }}>
             {
-                store.idNamePairs.map((pair, index) => (
+                lists.data.map((list, index) => (
                     <ListCard
-                        key={pair._id}
-                        idNamePair={pair}
+                        key={list._id}
+                        idNamePair={{_id: list._id, name: list.name}}
                         selected={false}
                         index={index}
                     />
@@ -42,7 +46,7 @@ const HomeScreen = () => {
     return (
         <div>
             <Navigation
-                active="0"
+                active="1"
             />
             <div id="list-selector-list">
                 {
@@ -53,4 +57,4 @@ const HomeScreen = () => {
         </div>)
 }
 
-export default HomeScreen;
+export default AllListScreen;

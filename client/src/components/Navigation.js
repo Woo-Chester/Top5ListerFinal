@@ -17,11 +17,12 @@ import SortOutlinedIcon from '@mui/icons-material/SortOutlined';
 import Grid from '@mui/material/Grid';
 
 
-export default function Navigation() {
+export default function Navigation(props) {
     const { auth } = useContext(AuthContext);
     const { store } = useContext(GlobalStoreContext);
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
+    const active = props.active;
 
     let ths_page = "home";
 
@@ -47,9 +48,11 @@ export default function Navigation() {
                     aria-haspopup="true"
                     color="inherit"
                 >
-                    <HomeOutlinedIcon
-                        className={"navbar-btn" + (ths_page=="home" ? " active-nav": "")}
-                    ></HomeOutlinedIcon>
+                    <Link style={{ textDecoration: 'none', color: 'black' }} to='/'>
+                        <HomeOutlinedIcon
+                            className={"navbar-btn" + (active=="0" ? " active-nav": "")}
+                        ></HomeOutlinedIcon>
+                    </Link>
                 </IconButton>
                 <IconButton
                     size="large"
@@ -58,9 +61,11 @@ export default function Navigation() {
                     aria-haspopup="true"
                     color="inherit"
                 >
-                    <GroupsOutlinedIcon
-                        className="navbar-btn"
-                    ></GroupsOutlinedIcon>
+                    <Link style={{ textDecoration: 'none', color: 'black' }} to='/allLists'>
+                        <GroupsOutlinedIcon
+                            className={"navbar-btn" + (active=="1" ? " active-nav" : "")}
+                        ></GroupsOutlinedIcon>
+                    </Link>
                 </IconButton>
                 <IconButton
                     size="large"

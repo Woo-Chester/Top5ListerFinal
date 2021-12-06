@@ -114,7 +114,7 @@ function ListCard(props) {
     }
     //console.log(published);
     let bg_color = published ? "#c8d2fd" : "#fefdf0";
-    let pub_edit = published ? "Published: " + published_date : <Typography onClick={(event) => {handleLoadList(event, idNamePair._id)}}>Edit</Typography>;
+    let pub_edit = published ? <Typography sx={{p : 1}}>{"Published: " + published_date }</Typography>: <Typography sx={{p: 1, color: 'red'}} onClick={(event) => {handleLoadList(event, idNamePair._id)}}>Edit</Typography>;
 
     let arrow = open==idNamePair._id ?
                  <KeyboardArrowUpOutlinedIcon 
@@ -156,7 +156,8 @@ function ListCard(props) {
                                     {comments}
                                     <TextField
                                     onKeyPress={handleSubmitComment}
-                                    sx={{left: '5%', position: 'relative', width: '90%'}}
+                                    label="Add a Comment"
+                                    sx={{left: '5%', position: 'relative', width: '90%', backgroundColor: '#fff'}}
                                     >
                                     </TextField>
                                 </Grid>

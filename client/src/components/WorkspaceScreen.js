@@ -5,6 +5,7 @@ import { Typography } from '@mui/material'
 import { GlobalStoreContext } from '../store/index.js'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Navigation from './Navigation';
 
 
 /*
@@ -55,6 +56,8 @@ function WorkspaceScreen() {
         currentId = store.currentList._id;
     }
     return (
+        <div>
+            <Navigation/>
         <div id="top5-workspace">
              <TextField
                 margin="normal"
@@ -91,6 +94,7 @@ function WorkspaceScreen() {
                 onClick={handlePublish}
                 >Publish</Button>
             </div>
+        </div>
         </div>
     )
 }

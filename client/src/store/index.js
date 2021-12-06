@@ -459,6 +459,13 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
+    store.getAllTop5Lists = async function() {
+        const response = await api.getAllTop5Lists();
+        if(response.data.success){
+            return response.data;
+        }
+    }
+
     store.submitComment = async function(newComment) {
         const response = await api.createComment(newComment);
         if(response.data.success){
