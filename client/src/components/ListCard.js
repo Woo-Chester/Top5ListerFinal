@@ -17,6 +17,7 @@ import AuthContext from '../auth';
 import CommentCard from './CommentCard'
 
 
+
 /*
     This is a card in our list of top 5 lists. It lets select
     a list for editing and it has controls for changing its 
@@ -29,7 +30,6 @@ function ListCard(props) {
     const { auth } = useContext(AuthContext);
     const [editActive, setEditActive] = useState(false);
     const { idNamePair, index } = props;
-    const [text, setText] = useState(idNamePair.name);
     const [list, setList] = useState();
     const [open, setOpen] = useState(null);
     const [comments, setComments] = useState("");
@@ -76,33 +76,9 @@ function ListCard(props) {
         setOpen(null);
     }
 
-    function handleToggleEdit(event) {
-        event.stopPropagation();
-        toggleEdit();
-    }
-
-    function toggleEdit() {
-        let newActive = !editActive;
-        if (newActive) {
-            store.setIsListNameEditActive();
-        }
-        setEditActive(newActive);
-    }
-
     async function handleDeleteList(event, id) {
         event.stopPropagation();
         store.markListForDeletion(id);
-    }
-
-    function handleKeyPress(event) {
-        if (event.code === "Enter") {
-            let id = event.target.id.substring("list-".length);
-            store.changeListName(id, text);
-            toggleEdit();
-        }
-    }
-    function handleUpdateText(event) {
-        setText(event.target.value);
     }
 
     function handleSubmitComment(event){
@@ -294,25 +270,25 @@ function ListCard(props) {
                 </Grid>
         </ListItem>
 
-    if (editActive) {
-        cardElement =
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                id={"list-" + idNamePair._id}
-                label="Top 5 List Name"
-                name="name"
-                autoComplete="Top 5 List Name"
-                className='list-card'
-                onKeyPress={handleKeyPress}
-                onChange={handleUpdateText}
-                defaultValue={idNamePair.name}
-                inputProps={{style: {fontSize: 48}}}
-                InputLabelProps={{style: {fontSize: 24}}}
-                autoFocus
-            />
-    }
+    // if (editActive) {
+    //     cardElement =
+    //         <TextField
+    //             margin="normal"
+    //             required
+    //             fullWidth
+    //             id={"list-" + idNamePair._id}
+    //             label="Top 5 List Name"
+    //             name="name"
+    //             autoComplete="Top 5 List Name"
+    //             className='list-card'
+    //             onKeyPress={handleKeyPress}
+    //             onChange={handleUpdateText}
+    //             defaultValue={idNamePair.name}
+    //             inputProps={{style: {fontSize: 48}}}
+    //             InputLabelProps={{style: {fontSize: 24}}}
+    //             autoFocus
+    //         />
+    // }
     return (
         cardElement
     );

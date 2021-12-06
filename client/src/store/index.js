@@ -60,7 +60,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.CHANGE_LIST_NAME: {
                 return setStore({
                     idNamePairs: payload.idNamePairs,
-                    currentList: null,
+                    currentList: store.currentList,
                     newListCounter: store.newListCounter,
                     isListNameEditActive: false,
                     isItemEditActive: false,
@@ -205,6 +205,7 @@ function GlobalStoreContextProvider(props) {
                                     top5List: top5List
                                 }
                             });
+                            //history.push("/");
                         }
                         else{
                             console.log("Err");
@@ -214,6 +215,13 @@ function GlobalStoreContextProvider(props) {
                 }
             }
             updateList(top5List);
+        }
+    }
+
+    store.publishList = async function() {
+        const response = await api.publishTop5ListById(store.currentList._id);
+        if(response.data.success){
+            store.closeCurrentList();
         }
     }
 

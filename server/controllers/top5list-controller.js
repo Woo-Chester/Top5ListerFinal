@@ -73,6 +73,37 @@ updateTop5List = async (req, res) => {
     })
 }
 
+publishTop5List = async (req, res) => {
+    Top5List.findOne({ _id: req.params.id }, (err, top5List) => {
+        console.log("top5List found: " + JSON.stringify(top5List));
+        if (err) {
+            return res.status(404).json({
+                err,
+                message: 'Top 5 List not found!',
+            })
+        }
+
+        top5List.published = new Date();
+        top5List
+            .save()
+            .then(() => {
+                console.log("SUCCESS!!!");
+                return res.status(200).json({
+                    success: true,
+                    id: top5List._id,
+                    message: 'Top 5 List published!',
+                })
+            })
+            .catch(error => {
+                console.log("FAILURE: " + JSON.stringify(error));
+                return res.status(404).json({
+                    error,
+                    message: 'Top 5 List not published!',
+                })
+            })
+    })
+}
+
 deleteTop5List = async (req, res) => {
     Top5List.findById({ _id: req.params.id }, (err, top5List) => {
         if (err) {
@@ -140,6 +171,7 @@ getTop5ListPairs = async (req, res) => {
 module.exports = {
     createTop5List,
     updateTop5List,
+    publishTop5List,
     deleteTop5List,
     getTop5Lists,
     getTop5ListPairs,

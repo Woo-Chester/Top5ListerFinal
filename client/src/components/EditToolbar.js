@@ -20,9 +20,7 @@ function EditToolbar() {
     function handleRedo() {
         store.redo();
     }
-    function handleClose() {
-        store.closeCurrentList();
-    }
+    
     let editStatus = false;
     if (store.isListNameEditActive) {
         editStatus = true;
@@ -43,13 +41,7 @@ function EditToolbar() {
                 variant="contained">
                     <RedoIcon />
             </Button>
-            <Button 
-                disabled={editStatus}
-                id='close-button'
-                onClick={handleClose}
-                variant="contained">
-                    <CloseIcon />
-            </Button>
+            
         </div>
     )
 }

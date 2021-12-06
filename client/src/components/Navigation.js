@@ -105,7 +105,7 @@ export default function Navigation() {
             xs={2}
             sm={2}
             md={2}
-            sx={{p:1}}
+            sx={{paddingLeft: '5px'}}
             >
                 <Typography variant="span">
                     Sort By
@@ -113,7 +113,6 @@ export default function Navigation() {
                <IconButton
                     size="large"
                     edge="end"
-                    aria-label="account of current user"
                     aria-haspopup="true"
                     color="inherit"
                 >

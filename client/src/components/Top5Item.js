@@ -103,13 +103,13 @@ function Top5Item(props) {
                 draggable="true"
                 sx={{ display: 'flex', p: 1 }}
                 style={{
-                    fontSize: '48pt',
+                    fontSize: '26pt',
                     width: '100%'
                 }}
             >
             <Box sx={{ p: 1 }}>
                 <IconButton disabled={store.isItemEditActive} onClick={handleToggleEdit} aria-label='edit'>
-                    <EditIcon style={{fontSize:'48pt'}}  />
+                    <EditIcon style={{fontSize:'26pt'}}  />
                 </IconButton>
             </Box>
                 <Box sx={{ p: 1, flexGrow: 1 }}>{props.text}</Box>
@@ -129,9 +129,10 @@ function Top5Item(props) {
                 onKeyPress={handleKeyPress}
                 onChange={handleUpdateText}
                 defaultValue={store.currentList.items[index]}
-                inputProps={{style: {fontSize: 48}}}
-                InputLabelProps={{style: {fontSize: 24}}}
+                inputProps={{style: {fontSize: 26}}}
+                InputLabelProps={{style: {fontSize: 16}}}
                 autoFocus
+                sx={{background: 'var(--swatch-complement)'}}
             />
     }
 
