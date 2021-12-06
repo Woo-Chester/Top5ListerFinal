@@ -37,25 +37,30 @@ function ListCard(props) {
     useEffect(() => {
         // Make other things better
         store.getTopListById(idNamePair._id).then( (result) => {
-            setList(result)
+            if(list !== result){
+                setList(result)
+            }
         });
         store.getListComments(idNamePair._id).then( (result) => {
             let commentCards = 
-            <List sx={{ width: '90%', left: '5%', bgcolor: 'var(--swatch-primary)' }}>
+            <List sx={{ width: '90%', left: '5%', maxHeight: '200px', overflow: 'scroll', paddingTop: '0px'}}>
             {
                 result.map((commentData, index) => (
                     <CommentCard
                         commentData={commentData}
                         index={index}
+                        key={commentData._id}
+                        className='comment-cards'
                     />
                 ))
             }
             </List>;
-                                
-            setComments(commentCards);
+            if(commentCards !== comments){
+                setComments(commentCards);
+            }
         });
-        
-    });
+    }, []);
+    //console.log(list);
 
     function handleLoadList(event, id) {
         if (!event.target.disabled) {
@@ -125,7 +130,7 @@ function ListCard(props) {
         top5List = list.items;
         top5List = top5List.map((item, index) => (
             <Typography
-                sx={ {paddingLeft: '30px', lineHeight: '200%', color: '#f1c026'} }
+                sx={ {paddingLeft: '30px', lineHeight: '200%', color: '#f1c026', fontSize: '25px'} }
             >
                 {(index+1) + ". " + item }
             </Typography>
@@ -149,6 +154,7 @@ function ListCard(props) {
 
     let open_menu = open ? <Grid
                             container
+                            item
                             xs={12}
                             sm={12}
                             md={12}
@@ -174,6 +180,7 @@ function ListCard(props) {
                                     {comments}
                                     <TextField
                                     onKeyPress={handleSubmitComment}
+                                    sx={{left: '5%', position: 'relative', width: '90%'}}
                                     >
                                     </TextField>
                                 </Grid>

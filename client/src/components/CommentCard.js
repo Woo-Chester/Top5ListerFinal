@@ -19,13 +19,20 @@ function CommentCard(props) {
     let commenter = commentData.commenter;
     let comment = commentData.comment;
 
+
     let commentElement = 
             <ListItem
-                id={'comment-' + (index+1)}
+                id={commentData._id}
                 className='comment-card'
+                key={commentData._id}
             >
-                <Typography variant='p'>{commenter}</Typography>
-                <Typography variant='p'>{comment}</Typography>
+                <Typography 
+                display='block'
+                >
+                    <p>{commenter}</p>
+                    <p>{comment}</p>
+                </Typography>
+                
             </ListItem>;
 
     return (

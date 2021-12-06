@@ -213,6 +213,13 @@ body {
   transform: scale(2);
 }
 
+.comment-card{
+  padding: 0;
+  background-color: #f1c026;
+  border-radius: 4px;
+  margin: 2px 0px;
+}
+
 #workspace-home,
 #workspace-edit {
   position: absolute;

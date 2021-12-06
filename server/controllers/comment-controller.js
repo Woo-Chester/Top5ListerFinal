@@ -41,6 +41,7 @@ getListComments = async (req, res) => {
             for (let key in comments) {
                 let list = comments[key];
                 let comment = {
+                    _id: list._id,
                     list_id: list.list_id,
                     commenter: list.commenter,
                     comment: list.comment

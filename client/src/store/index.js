@@ -27,7 +27,8 @@ export const GlobalStoreActionType = {
     SET_CURRENT_LIST: "SET_CURRENT_LIST",
     SET_ITEM_EDIT_ACTIVE: "SET_ITEM_EDIT_ACTIVE",
     SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
-    UPDATE_LIST: "UPDATE_LIST"
+    UPDATE_LIST: "UPDATE_LIST",
+    NEW_COMMENT: "NEW_COMMENT"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -163,6 +164,16 @@ function GlobalStoreContextProvider(props) {
                     isItemEditActive: false,
                     listMarkedForDeletion: null
                 });
+            }
+            case GlobalStoreActionType.NEW_COMMENT: {
+                return setStore({
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    newListCounter: store.newListCounter,
+                    isListNameEditActive: false,
+                    isItemEditActive: false,
+                    listMarkedForDeletion: null
+                })
             }
             default:
                 return store;
@@ -443,7 +454,9 @@ function GlobalStoreContextProvider(props) {
     store.submitComment = async function(newComment) {
         const response = await api.createComment(newComment);
         if(response.data.success){
-            return response.data.success;
+            storeReducer({
+                type: GlobalStoreActionType.NEW_COMMENT
+            });
         }
     }
 
