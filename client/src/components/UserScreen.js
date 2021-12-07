@@ -10,16 +10,13 @@ import Navigation from './Navigation';
     
     @author McKilla Gorilla
 */
-const AllListScreen = () => {
+const UserScreen = () => {
     const { store } = useContext(GlobalStoreContext);
     const [lists, setLists] = useState();
 
     useEffect(() => {
-        // store.getAllTop5Lists().then((result) => {
-        //     setLists(result);
-        // })
         const query = {published: true};
-        const search = "";
+        const search = "^$";
         const sort = {};
 
         store.getTop5ListsByQuery(query, search, sort).then((result) => {
@@ -35,7 +32,6 @@ const AllListScreen = () => {
     const disabled = store.isListNameEditActive;
     let listCard = "";
     if (lists) {
-        console.log("LIST:");
         console.log(lists);
         listCard = 
             <List sx={{ width: '90%', left: '5%', bgcolor: 'var(--swatch-primary)' }}>
@@ -54,7 +50,7 @@ const AllListScreen = () => {
     return (
         <div>
             <Navigation
-                active="1"
+                active="2"
             />
             <div id="list-selector-list">
                 {
@@ -65,4 +61,4 @@ const AllListScreen = () => {
         </div>)
 }
 
-export default AllListScreen;
+export default UserScreen;

@@ -74,9 +74,11 @@ export default function Navigation(props) {
                     aria-haspopup="true"
                     color="inherit"
                 >
-                    <PersonOutlineOutlinedIcon
-                        className="navbar-btn">
-                    </PersonOutlineOutlinedIcon>
+                    <Link style={{ textDecoration: 'none', color: 'black' }} to='/userlists'>
+                        <PersonOutlineOutlinedIcon
+                            className={"navbar-btn" + (active=="2" ? " active-nav" : "")}>
+                        </PersonOutlineOutlinedIcon>
+                    </Link>
                 </IconButton>
                 <IconButton
                     size="large"

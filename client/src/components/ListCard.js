@@ -90,16 +90,18 @@ function ListCard(props) {
 
     let published = false;
     let published_date = "";
+    let ownerEmail = "";
     let likes = 0 ;
     let dislikes = 0;
     let views = 0;
     let top5List = [];
 
     if(list != undefined){
-        published_date = list.published;
-        published = published_date != '3000-01-01T05:00:00.000Z';
+        published_date = list.published_date;
+        published = list.published;
         published_date = new Date(published_date);
         published_date = published_date.toDateString();
+        ownerEmail = list.ownerEmail;
         likes = list.likes;
         dislikes = list.dislikes;
         views = list.views;
@@ -187,7 +189,7 @@ function ListCard(props) {
                     md={9}
                     >
                         <h3>{idNamePair.name}</h3>
-                        <p>By: {auth.user.username}</p>
+                        <p>By: {ownerEmail}</p>
                     </Grid>
                     <Grid
                     container

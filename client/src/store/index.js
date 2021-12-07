@@ -28,7 +28,8 @@ export const GlobalStoreActionType = {
     SET_ITEM_EDIT_ACTIVE: "SET_ITEM_EDIT_ACTIVE",
     SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE",
     UPDATE_LIST: "UPDATE_LIST",
-    NEW_COMMENT: "NEW_COMMENT"
+    NEW_COMMENT: "NEW_COMMENT",
+    SET_SEARCH_QUERY: "SET_SEARCH_QUERY"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -62,6 +63,7 @@ function GlobalStoreContextProvider(props) {
                     idNamePairs: payload.idNamePairs,
                     currentList: store.currentList,
                     newListCounter: store.newListCounter,
+                    searchQuery: store.searchQuery,
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null
@@ -73,6 +75,7 @@ function GlobalStoreContextProvider(props) {
                     idNamePairs: store.idNamePairs,
                     currentList: null,
                     newListCounter: store.newListCounter,
+                    searchQuery: store.searchQuery,
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null
@@ -84,6 +87,7 @@ function GlobalStoreContextProvider(props) {
                     idNamePairs: store.idNamePairs,
                     currentList: payload,
                     newListCounter: store.newListCounter + 1,
+                    searchQuery: store.searchQuery,
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null
@@ -95,6 +99,7 @@ function GlobalStoreContextProvider(props) {
                     idNamePairs: payload,
                     currentList: null,
                     newListCounter: store.newListCounter,
+                    searchQuery: store.searchQuery,
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null
@@ -106,6 +111,7 @@ function GlobalStoreContextProvider(props) {
                     idNamePairs: store.idNamePairs,
                     currentList: null,
                     newListCounter: store.newListCounter,
+                    searchQuery: store.searchQuery,
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: payload
@@ -117,6 +123,7 @@ function GlobalStoreContextProvider(props) {
                     idNamePairs: store.idNamePairs,
                     currentList: null,
                     newListCounter: store.newListCounter,
+                    searchQuery: store.searchQuery,
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null
@@ -128,6 +135,7 @@ function GlobalStoreContextProvider(props) {
                     idNamePairs: store.idNamePairs,
                     currentList: payload,
                     newListCounter: store.newListCounter,
+                    searchQuery: store.searchQuery,
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null
@@ -139,6 +147,7 @@ function GlobalStoreContextProvider(props) {
                     idNamePairs: store.idNamePairs,
                     currentList: store.currentList,
                     newListCounter: store.newListCounter,
+                    searchQuery: store.searchQuery,
                     isListNameEditActive: false,
                     isItemEditActive: true,
                     listMarkedForDeletion: null
@@ -149,6 +158,7 @@ function GlobalStoreContextProvider(props) {
                     idNamePairs: payload.idNamePairs,
                     currentList: store.currentList,
                     newListCounter: store.newListCounter,
+                    searchQuery: store.searchQuery,
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null
@@ -160,6 +170,7 @@ function GlobalStoreContextProvider(props) {
                     idNamePairs: store.idNamePairs,
                     currentList: payload,
                     newListCounter: store.newListCounter,
+                    searchQuery: store.searchQuery,
                     isListNameEditActive: true,
                     isItemEditActive: false,
                     listMarkedForDeletion: null
@@ -170,6 +181,18 @@ function GlobalStoreContextProvider(props) {
                     idNamePairs: store.idNamePairs,
                     currentList: store.currentList,
                     newListCounter: store.newListCounter,
+                    searchQuery: store.searchQuery,
+                    isListNameEditActive: false,
+                    isItemEditActive: false,
+                    listMarkedForDeletion: null
+                })
+            }
+            case GlobalStoreActionType.SET_SEARCH_QUERY: {
+                return setStore({
+                    idNamePairs: store.idNamePairs,
+                    currentList: store.currentList,
+                    newListCounter: store.newListCounter,
+                    searchQuery: payload,
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null
@@ -244,7 +267,8 @@ function GlobalStoreContextProvider(props) {
             name: newListName,
             items: ["?", "?", "?", "?", "?"],
             ownerEmail: auth.user.email,
-            published: new Date("January 1, 3000"),
+            published: false,
+            published_date: new Date("January 1, 3000"),
             likes: 0,
             dislikes: 0,
             views: 0
@@ -466,6 +490,14 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
+    store.getTop5ListsByQuery = async function(query = {}, search = {}, sort = {}) {
+        const payload = {query: query, search: search, sort: sort};
+        const response = await api.getTop5ListsByQuery(payload);
+        if(response.data.success){
+            return response.data;
+        }
+    }
+
     store.submitComment = async function(newComment) {
         const response = await api.createComment(newComment);
         if(response.data.success){
@@ -480,6 +512,13 @@ function GlobalStoreContextProvider(props) {
         if(response.data.success){
             return response.data.comments;
         }
+    }
+
+    store.setSearchQuery = function(query){
+        storeReducer({
+            type: GlobalStoreActionType.SET_SEARCH_QUERY,
+            payload: query
+        })
     }
 
     return (

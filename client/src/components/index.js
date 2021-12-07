@@ -15,6 +15,7 @@ import DeleteModal from './DeleteModal'
 import Navigation from './Navigation'
 import CommentCard from './CommentCard'
 import AllListScreen from './AllListScreen'
+import UserScreen from './UserScreen'
 /*
     This serves as a module so that we can import
     all the other components as we wish.
@@ -38,5 +39,6 @@ export {
     DeleteModal,
     Navigation,
     CommentCard,
-    AllListScreen
+    AllListScreen,
+    UserScreen
  }

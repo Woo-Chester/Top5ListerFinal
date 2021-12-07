@@ -75,7 +75,7 @@ updateTop5List = async (req, res) => {
 
 publishTop5List = async (req, res) => {
     Top5List.findOne({ _id: req.params.id }, (err, top5List) => {
-        console.log("top5List found: " + JSON.stringify(top5List));
+        console.log("publish top5List found: " + JSON.stringify(top5List));
         if (err) {
             return res.status(404).json({
                 err,
@@ -83,7 +83,8 @@ publishTop5List = async (req, res) => {
             })
         }
 
-        top5List.published = new Date();
+        top5List.published_date = new Date()
+        top5List.published = true
         top5List
             .save()
             .then(() => {
@@ -125,6 +126,20 @@ getTop5ListById = async (req, res) => {
         }
         return res.status(200).json({ success: true, top5List: list })
     }).catch(err => console.log(err))
+}
+getTop5ListsByQuery = async (req, res) =>{
+    let the_query = req.body.query;
+    const search = req.body.search;
+    const the_search = new RegExp(search);
+    the_query.name = {$regex: the_search};
+    const sort = req.body.sort;
+
+    await Top5List.find( { $query: the_query, $orderby: sort}, (err, lists) => {
+        if(err){
+            return res.status(400).json({success: false, error: err});
+        }
+        return res.status(200).json({success: true, top5Lists: lists});
+    }).catch(err=> console.log(err))
 }
 getTop5Lists = async (req, res) => {
     await Top5List.find({}, (err, top5Lists) => {
@@ -175,5 +190,6 @@ module.exports = {
     deleteTop5List,
     getTop5Lists,
     getTop5ListPairs,
-    getTop5ListById
+    getTop5ListById,
+    getTop5ListsByQuery
 }

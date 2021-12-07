@@ -9,7 +9,7 @@ import {
     LoginScreen,
     RegisterScreen,
     Statusbar,
-    Navigation,
+    UserScreen,
     WorkspaceScreen,
     AllListScreen,
 } from './components'
@@ -37,6 +37,7 @@ const App = () => {
                         <Route path="/register/" exact component={RegisterScreen} />
                         <Route path="/top5list/:id" exact component={WorkspaceScreen} />
                         <Route path="/allLists" exact component={AllListScreen} />
+                        <Route path="/userlists" exact component={UserScreen} />
                     </Switch>
                     </div>
                     <Statusbar />
