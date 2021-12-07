@@ -23,8 +23,14 @@ export default function Navigation(props) {
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
     const active = props.active;
+    const [search, setSearch] = useState(store.searchQuery);
 
-    let ths_page = "home";
+    const handleSearch = (event) =>{
+        if(event.code === "Enter"){
+            store.setSearchQuery(event.target.value);
+            setSearch(event.target.value);
+        }
+    }
 
     return (
         <Grid
@@ -104,6 +110,8 @@ export default function Navigation(props) {
                     label="Search"
                     name="search"
                     autoComplete="search"
+                    onKeyPress={handleSearch}
+                    defaultValue={search}
                     autoFocus
                 ></TextField>
             </Grid>

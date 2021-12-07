@@ -131,7 +131,9 @@ getTop5ListsByQuery = async (req, res) =>{
     let the_query = req.body.query;
     const search = req.body.search;
     const the_search = new RegExp(search);
-    the_query.name = {$regex: the_search};
+    req.body.searchFor = search[search.length-1] == "$" ? "ownerUsername" : "name";
+    the_query[req.body.searchFor] = {$regex: the_search};
+    console.log(the_query);
     const sort = req.body.sort;
 
     await Top5List.find( { $query: the_query, $orderby: sort}, (err, lists) => {
@@ -155,7 +157,9 @@ getTop5Lists = async (req, res) => {
     }).catch(err => console.log(err))
 }
 getTop5ListPairs = async (req, res) => {
-    await Top5List.find({ownerEmail: req.body.email}, (err, top5Lists) => {
+    let query = {name: {$regex: new RegExp("^" + req.body.search)}};
+    query.ownerEmail = req.body.email;
+    await Top5List.find({$query: query}, (err, top5Lists) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }

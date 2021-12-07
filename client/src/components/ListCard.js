@@ -90,7 +90,7 @@ function ListCard(props) {
 
     let published = false;
     let published_date = "";
-    let ownerEmail = "";
+    let ownerUsername = "";
     let likes = 0 ;
     let dislikes = 0;
     let views = 0;
@@ -101,7 +101,7 @@ function ListCard(props) {
         published = list.published;
         published_date = new Date(published_date);
         published_date = published_date.toDateString();
-        ownerEmail = list.ownerEmail;
+        ownerUsername = list.ownerUsername;
         likes = list.likes;
         dislikes = list.dislikes;
         views = list.views;
@@ -189,7 +189,7 @@ function ListCard(props) {
                     md={9}
                     >
                         <h3>{idNamePair.name}</h3>
-                        <p>By: {ownerEmail}</p>
+                        <p>By: {ownerUsername}</p>
                     </Grid>
                     <Grid
                     container

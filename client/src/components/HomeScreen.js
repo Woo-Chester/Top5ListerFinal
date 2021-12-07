@@ -1,4 +1,5 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext,useState, useEffect } from 'react'
+import AuthContext from '../auth';
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import List from '@mui/material/List';
@@ -12,10 +13,12 @@ import Navigation from './Navigation';
 */
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
+    const [lists, setLists] = useState();
 
     useEffect(() => {
-        store.loadIdNamePairs();
-    }, []);
+        store.loadIdNamePairs(store.searchQuery);
+    },[]);
 
     function handleCreateNewList() {
         store.createNewList();

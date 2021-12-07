@@ -15,14 +15,12 @@ const AllListScreen = () => {
     const [lists, setLists] = useState();
 
     useEffect(() => {
-        // store.getAllTop5Lists().then((result) => {
-        //     setLists(result);
-        // })
         const query = {published: true};
-        const search = "";
+        const search = "^" + store.searchQuery;
+        const searchFor = "name";
         const sort = {};
 
-        store.getTop5ListsByQuery(query, search, sort).then((result) => {
+        store.getTop5ListsByQuery(query, search, searchFor, sort).then((result) => {
             setLists(result);
         })
     }, []);

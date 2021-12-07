@@ -43,6 +43,7 @@ function GlobalStoreContextProvider(props) {
         idNamePairs: [],
         currentList: null,
         newListCounter: 0,
+        searchQuery: "",
         listNameActive: false,
         itemActive: false,
         listMarkedForDeletion: null
@@ -91,7 +92,7 @@ function GlobalStoreContextProvider(props) {
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null
-                })
+                });
             }
             // GET ALL THE LISTS SO WE CAN PRESENT THEM
             case GlobalStoreActionType.LOAD_ID_NAME_PAIRS: {
@@ -185,7 +186,7 @@ function GlobalStoreContextProvider(props) {
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null
-                })
+                });
             }
             case GlobalStoreActionType.SET_SEARCH_QUERY: {
                 return setStore({
@@ -196,7 +197,7 @@ function GlobalStoreContextProvider(props) {
                     isListNameEditActive: false,
                     isItemEditActive: false,
                     listMarkedForDeletion: null
-                })
+                });
             }
             default:
                 return store;
@@ -267,6 +268,7 @@ function GlobalStoreContextProvider(props) {
             name: newListName,
             items: ["?", "?", "?", "?", "?"],
             ownerEmail: auth.user.email,
+            ownerUsername: auth.user.username,
             published: false,
             published_date: new Date("January 1, 3000"),
             likes: 0,
@@ -292,9 +294,8 @@ function GlobalStoreContextProvider(props) {
     }
 
     // THIS FUNCTION LOADS ALL THE ID, NAME PAIRS SO WE CAN LIST ALL THE LISTS
-    store.loadIdNamePairs = async function () {
-        console.log(auth.user.email);
-        const response = await api.getTop5ListPairs({"email": auth.user.email});
+    store.loadIdNamePairs = async function (search="") {
+        const response = await api.getTop5ListPairs({"email": auth.user.email, "search": search});
         if (response.data.success) {
             let pairsArray = response.data.idNamePairs;
             storeReducer({
@@ -490,8 +491,8 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
-    store.getTop5ListsByQuery = async function(query = {}, search = {}, sort = {}) {
-        const payload = {query: query, search: search, sort: sort};
+    store.getTop5ListsByQuery = async function(query = {}, search = {},searchFor="", sort = {}) {
+        const payload = {query: query, search: search,searchFor: searchFor, sort: sort};
         const response = await api.getTop5ListsByQuery(payload);
         if(response.data.success){
             return response.data;
@@ -502,7 +503,8 @@ function GlobalStoreContextProvider(props) {
         const response = await api.createComment(newComment);
         if(response.data.success){
             storeReducer({
-                type: GlobalStoreActionType.NEW_COMMENT
+                type: GlobalStoreActionType.NEW_COMMENT,
+                payload: {}
             });
         }
     }
@@ -518,7 +520,7 @@ function GlobalStoreContextProvider(props) {
         storeReducer({
             type: GlobalStoreActionType.SET_SEARCH_QUERY,
             payload: query
-        })
+        });
     }
 
     return (

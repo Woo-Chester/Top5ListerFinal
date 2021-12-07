@@ -16,7 +16,7 @@ const UserScreen = () => {
 
     useEffect(() => {
         const query = {published: true};
-        const search = "^$";
+        const search = "^" + store.searchQuery + "$";
         const sort = {};
 
         store.getTop5ListsByQuery(query, search, sort).then((result) => {
