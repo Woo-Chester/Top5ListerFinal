@@ -90,11 +90,14 @@ function ListCard(props) {
 
     let published = false;
     let published_date = "";
+    let ownerEmail = "";
     let ownerUsername = "";
     let likes = 0 ;
     let dislikes = 0;
     let views = 0;
     let top5List = [];
+
+    let trash = "block";
 
     if(list != undefined){
         published_date = list.published_date;
@@ -102,6 +105,7 @@ function ListCard(props) {
         published_date = new Date(published_date);
         published_date = published_date.toDateString();
         ownerUsername = list.ownerUsername;
+        ownerEmail = list.ownerEmail;
         likes = list.likes;
         dislikes = list.dislikes;
         views = list.views;
@@ -112,7 +116,8 @@ function ListCard(props) {
             >
                 {(index+1) + ". " + item }
             </Typography>
-        ))
+        ));
+        trash = auth.user.email == ownerEmail ? "block" : "none";
     }
     //console.log(published);
     let bg_color = published ? "#c8d2fd" : "#fefdf0";
@@ -231,7 +236,9 @@ function ListCard(props) {
                            <IconButton onClick={(event) => {
                                 handleDeleteList(event, idNamePair._id)
                             }} aria-label='delete'>
-                                <DeleteIcon/>
+                                <DeleteIcon 
+                                    sx={{display: trash}}
+                                />
                             </IconButton>
                         </Grid>
                     </Grid>

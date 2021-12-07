@@ -16,9 +16,12 @@ const HomeScreen = () => {
     const { auth } = useContext(AuthContext);
     const [lists, setLists] = useState();
 
+    console.log(store.searchQuery);
+
     useEffect(() => {
         store.loadIdNamePairs(store.searchQuery);
-    },[]);
+        console.log(store.searchQuery);
+    },[store.searchQuery]);
 
     function handleCreateNewList() {
         store.createNewList();
