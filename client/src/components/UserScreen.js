@@ -22,7 +22,7 @@ const UserScreen = () => {
         store.getTop5ListsByQuery(query, search, sort).then((result) => {
             setLists(result);
         })
-    }, [lists]);
+    }, [store.searchQuery]);
 
     function handleCreateNewList() {
         store.createNewList();

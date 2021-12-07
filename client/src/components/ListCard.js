@@ -59,7 +59,7 @@ function ListCard(props) {
                 setComments(commentCards);
             }
         });
-    }, []);
+    }, [comments]);
     //console.log(list);
 
     function handleLoadList(event, id) {

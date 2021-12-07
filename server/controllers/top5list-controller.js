@@ -130,7 +130,7 @@ getTop5ListById = async (req, res) => {
 getTop5ListsByQuery = async (req, res) =>{
     let the_query = req.body.query;
     const search = req.body.search;
-    const the_search = new RegExp(search);
+    const the_search = new RegExp(search, "i");
     req.body.searchFor = search[search.length-1] == "$" ? "ownerUsername" : "name";
     the_query[req.body.searchFor] = {$regex: the_search};
     const sort = req.body.sort;

@@ -23,7 +23,7 @@ const AllListScreen = () => {
         store.getTop5ListsByQuery(query, search, searchFor, sort).then((result) => {
             setLists(result);
         })
-    }, [lists]);
+    }, [store.searchQuery]);
 
     function handleCreateNewList() {
         store.createNewList();
